@@ -1,11 +1,15 @@
-import express from 'express';
+import express from "express";
+import "dotenv/config";
+import gifRouter from "./routes/gif.router";
+import ratingRouter from "./routes/rating.router";
+import commentRouter from "./routes/comment.router";
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
-app.get('/', (req, res) => {
-  res.send('Hello World.')
-})
+app.use("/api/gifs", gifRouter);
+app.use("/api/ratings", ratingRouter);
+app.use("/api/comments", commentRouter);
 
 app.listen(port, () => {
   console.log(`Express is running at http://localhost:${port}`);
