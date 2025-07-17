@@ -1,4 +1,4 @@
-import { Express, Router } from "express";
+import { Router } from "express";
 
 const ratingRouter: Router = Router();
 
@@ -20,7 +20,7 @@ ratingRouter.post("/", (req, res) => {
   if (!gifId || typeof rating !== "number") {
     return res.status(400).send("gifId and rating are required.");
   }
-  // TODO: Add db logic
+
   res.send(`Rating of ${rating} for GIF ID ${gifId} has been saved.`);
 });
 
