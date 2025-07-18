@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Provider } from "@/components/ui/provider";
+import { Container } from "@chakra-ui/react";
+import Header from "@/app/components/header/header";
 
 export const metadata: Metadata = {
   title: "Gif Finder",
@@ -14,7 +16,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <Provider>{children}</Provider>
+        <Provider>
+          <Container paddingTop={10}>
+            <Header />
+            {children}
+          </Container>
+        </Provider>
       </body>
     </html>
   );

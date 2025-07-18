@@ -29,18 +29,6 @@ commentRouter.post("/", async (req, res) => {
   res.status(201).send("Comment added successfully.");
 });
 
-// commentRouter.post("/", async (req, res) => {
-//   const { name, age, email } = req.body;
-//   if (!name || !age || !email) {
-//     return res.status(400).send("Name, age, and email are required.");
-//   }
-//   const testUser: typeof testTable.$inferInsert = {
-//   name, age, email
-// }
-// await db.insert(testTable).values(testUser);
-// res.status(201).send("Test user added successfully.");
-// });
-
 commentRouter.put("/:id", (req, res) => {
   const commentId = req.params.id;
   const { comment } = req.body;
