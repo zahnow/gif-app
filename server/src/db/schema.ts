@@ -1,32 +1,27 @@
 import { int, sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { timestamps } from "./helpers";
 
-export const testTable = sqliteTable("test_table", {
+export const ratingsTable = sqliteTable("rating", {
   id: int().primaryKey({ autoIncrement: true }),
-  name: text().notNull(),
-  age: int().notNull(),
-  email: text().notNull().unique(),
-});
-
-export const ratingsTable = sqliteTable("ratings", {
-  id: int().primaryKey({ autoIncrement: true }),
-  gifId: int().notNull(),
+  gifId: text().notNull(),
   userId: int()
     .notNull()
-    .references(() => testTable.id),
+    .references(() => user.id),
   rating: int().notNull(),
   ...timestamps,
 });
 
-export const commentsTable = sqliteTable("comments", {
+export const commentsTable = sqliteTable("comment", {
   id: int().primaryKey({ autoIncrement: true }),
-  gifId: int().notNull(),
+  gifId: text().notNull(),
   userId: int()
     .notNull()
-    .references(() => testTable.id),
+    .references(() => user.id),
   comment: text().notNull(),
   ...timestamps,
 });
+
+// Better-Auth tables below
 
 export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
@@ -85,9 +80,9 @@ export const verification = sqliteTable("verification", {
   value: text("value").notNull(),
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
-    () => /* @__PURE__ */ new Date(),
+    () => /* @__PURE__ */ new Date()
   ),
   updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
-    () => /* @__PURE__ */ new Date(),
+    () => /* @__PURE__ */ new Date()
   ),
 });
