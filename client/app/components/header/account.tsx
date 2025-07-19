@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Avatar,
-  AvatarGroup,
-  Link as ChakraLink,
-  Menu,
-  Portal,
-} from "@chakra-ui/react";
+import { Avatar, AvatarGroup, Menu, Portal } from "@chakra-ui/react";
 import { authClient } from "@/components/auth/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";

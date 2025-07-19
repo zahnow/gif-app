@@ -1,10 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { authClient } from "@/components/auth/auth-client";
 import { Box, HStack, Spacer, VStack, Text, Input } from "@chakra-ui/react";
 
-export default function CommentListItem({ comment }: { comment: any }) {
+type Comment = {
+  comment: {
+    id: string;
+    userId: string;
+    comment: string;
+    createdAt: string;
+  };
+  user: string;
+};
+
+export default function CommentListItem({ comment }: { comment: Comment }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(comment.comment.comment);
   const session = authClient.useSession();

@@ -1,6 +1,6 @@
 "use client"; // TODO: Could switch to serverside fetching
 
-import React from "react";
+import { useEffect, useState } from "react";
 import { VStack, Text, HStack } from "@chakra-ui/react";
 import CommentListItem from "./commentListItem";
 
@@ -18,9 +18,9 @@ type Comment = {
 };
 
 export default function CommentList({ gifId }: { gifId: string }) {
-  const [comments, setComments] = React.useState<Comment[]>([]);
+  const [comments, setComments] = useState<Comment[]>([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchComments = async () => {
       const response = await fetch(
         `http://localhost:3001/api/comments/${gifId}`,
@@ -38,7 +38,7 @@ export default function CommentList({ gifId }: { gifId: string }) {
     };
 
     fetchComments();
-  }, []);
+  }, [gifId]);
 
   return (
     <HStack justifyContent={"center"}>

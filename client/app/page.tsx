@@ -1,4 +1,4 @@
-import { Heading, Input } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import TrendingGrid from "./components/trendingGrid";
 import Search from "./components/shared/search";
 
