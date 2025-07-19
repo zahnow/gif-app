@@ -1,22 +1,13 @@
-import { Heading, Text, Grid, Card, Image } from "@chakra-ui/react";
+import { Heading, Input } from "@chakra-ui/react";
+import TrendingGrid from "./components/trendingGrid";
+import Search from "./components/shared/search";
 
 export default async function Home() {
-  const data = await fetch(`http://localhost:3001/api/gifs`);
-  const json = await data.json();
-
   return (
     <>
+      <Search />
       <Heading size={"lg"}>Trending GIFs</Heading>
-      <Grid templateColumns="repeat(auto-fill, minmax(200px, 1fr))" gap={6}>
-        {json.data?.map((gif: any) => (
-          <Card.Root overflow={"hidden"} key={gif.id}>
-            <Image src={gif.images.fixed_width.url} alt={gif.title} />
-            <Card.Body>
-              <Text>{gif.title}</Text>
-            </Card.Body>
-          </Card.Root>
-        ))}
-      </Grid>
+      <TrendingGrid />
     </>
   );
 }

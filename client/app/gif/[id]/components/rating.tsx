@@ -1,53 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HStack, Button, RatingGroup } from "@chakra-ui/react";
 
-type RatingProps = {
-  initialRating?: number;
-  onCreate?: (rating: number) => Promise<void>;
-  onUpdate?: (rating: number) => Promise<void>;
-  onDelete?: () => Promise<void>;
-};
+export default function StarRating({ gifId }: { gifId: string }) {
+  const [rating, setRating] = useState(0);
 
-const StarRating: React.FC<RatingProps> = ({
-  initialRating = 0,
-  onCreate,
-  onUpdate,
-  onDelete,
-}) => {
-  const [rating, setRating] = useState(initialRating);
-
-  const handleRate = async (value: number) => {
-    if (rating === 0 && onCreate) {
-      await onCreate(value);
-    } else if (rating !== 0 && onUpdate) {
-      await onUpdate(value);
-    }
+  const updateRating = async (event: { value: number }) => {
+    const value = event.value;
     setRating(value);
+    const response = await fetch(`http://localhost:3001/api/ratings/${gifId}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ rating: event.value }),
+    });
   };
 
-  const handleDelete = async () => {
-    if (onDelete) {
-      await onDelete();
-      setRating(0);
-    }
+  const deleteRating = async () => {
+    setRating(0);
+    const response = await fetch(`http://localhost:3001/api/ratings/${gifId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
   };
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      const response = await fetch(
+        `http://localhost:3001/api/ratings/${gifId}`,
+        {
+          credentials: "include",
+        }
+      );
+      const data = await response.json();
+      setRating(data.rating || 0);
+    };
+
+    fetchRating();
+  }, []);
 
   return (
-    <HStack>
-      <RatingGroup.Root>
-        <RatingGroup.Control>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <RatingGroup.Item key={index} index={index + 1}>
-              <RatingGroup.ItemIndicator />
-            </RatingGroup.Item>
-          ))}
-        </RatingGroup.Control>
-      </RatingGroup.Root>
-      {rating > 0 && <Button>Delete Rating</Button>}
-    </HStack>
+    <>
+      <HStack py={4} justifyContent={"center"}>
+        <RatingGroup.Root
+          count={5}
+          size={"lg"}
+          value={rating}
+          onValueChange={(event) => updateRating(event)}
+        >
+          <RatingGroup.Label pr={2}>Rating</RatingGroup.Label>
+          <RatingGroup.HiddenInput />
+          <RatingGroup.Control />
+        </RatingGroup.Root>
+        {rating > 0 && <Button onClick={deleteRating}>Delete Rating</Button>}
+      </HStack>
+    </>
   );
-};
-
-export default StarRating;
+}

@@ -1,20 +1,32 @@
-import { int, sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import {
+  int,
+  sqliteTable,
+  text,
+  integer,
+  unique,
+} from "drizzle-orm/sqlite-core";
 import { timestamps } from "./helpers";
 
-export const ratingsTable = sqliteTable("rating", {
-  id: int().primaryKey({ autoIncrement: true }),
-  gifId: text().notNull(),
-  userId: int()
-    .notNull()
-    .references(() => user.id),
-  rating: int().notNull(),
-  ...timestamps,
-});
+export const ratingsTable = sqliteTable(
+  "rating",
+  {
+    id: int().primaryKey({ autoIncrement: true }),
+    gifId: text().notNull(),
+    userId: text()
+      .notNull()
+      .references(() => user.id),
+    rating: int().notNull(),
+    ...timestamps,
+  },
+  (table) => ({
+    uniqueUserGif: unique().on(table.userId, table.gifId),
+  })
+);
 
 export const commentsTable = sqliteTable("comment", {
   id: int().primaryKey({ autoIncrement: true }),
   gifId: text().notNull(),
-  userId: int()
+  userId: text()
     .notNull()
     .references(() => user.id),
   comment: text().notNull(),

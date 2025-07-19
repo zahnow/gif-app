@@ -1,51 +1,84 @@
 import { Router } from "express";
+import { db } from "../db/db";
+import { ratingsTable } from "../db/schema";
+import { and, eq } from "drizzle-orm";
+import { requireSession } from "../middleware/requireSession";
 
 const ratingRouter: Router = Router();
 
-ratingRouter.get("/:id", (req, res) => {
-  const ratingId = req.params.id;
-  res.send(
-    `Hello from the rating router. You requested rating ID: ${ratingId}`,
-  );
-});
-
-ratingRouter.get("/average/:gifId", (req, res) => {
-  const gifId = req.params.gifId;
-  // TODO: Add db logic
-  res.send(`Average rating for GIF ID ${gifId} is 4.5`); // Example response
-});
-
-ratingRouter.post("/", (req, res) => {
-  const { gifId, rating } = req.body;
-  if (!gifId || typeof rating !== "number") {
-    return res.status(400).send("gifId and rating are required.");
+ratingRouter.get("/:id", requireSession, async (req, res) => {
+  const gifId = req.params.id;
+  const userId = req.session?.user.id;
+  if (!userId) {
+    // This doesn't actually happen due to the requireSession middleware.
+    // Doing it to appease TypeScript.
+    return res
+      .status(401)
+      .send("User ID is required for updating the comment.");
   }
 
-  res.send(`Rating of ${rating} for GIF ID ${gifId} has been saved.`);
+  const result = await db
+    .select()
+    .from(ratingsTable)
+    .where(and(eq(ratingsTable.gifId, gifId), eq(ratingsTable.userId, userId)))
+    .limit(1);
+
+  if (result.length > 0) {
+    res.send(result[0]);
+  } else {
+    res.send(0);
+  }
 });
 
-ratingRouter.put("/:id", (req, res) => {
-  const ratingId = req.params.id;
-  const { rating, userId } = req.body;
+ratingRouter.put("/:id", requireSession, async (req, res) => {
+  const gifId = req.params.id;
+  const { rating } = req.body;
+  const userId = req.session?.user.id;
+
   if (!userId) {
-    return res.status(400).send("User ID is required for updating the rating.");
+    // This doesn't actually happen due to the requireSession middleware.
+    // Doing it to appease TypeScript.
+    return res
+      .status(401)
+      .send("User ID is required for updating the comment.");
   }
   if (typeof rating !== "number") {
     return res.status(400).send("Rating must be a number.");
   }
-  // TODO: Add db logic
-  res.send(`Rating ID ${ratingId} has been updated to ${rating}.`);
+
+  const newRating = {
+    gifId,
+    userId,
+    rating,
+  };
+
+  const result = await db
+    .insert(ratingsTable)
+    .values(newRating)
+    .onConflictDoUpdate({
+      target: [ratingsTable.gifId, ratingsTable.userId],
+      set: { rating: newRating.rating },
+    });
+  res.sendStatus(200);
 });
 
-ratingRouter.delete("/:id", (req, res) => {
-  const ratingId = req.params.id;
-  const userId = req.body.userId; // Assuming userId is sent in the body for authorization
+ratingRouter.delete("/:id", requireSession, async (req, res) => {
+  const gifId = req.params.id;
+  const userId = req.session?.user.id;
+
   if (!userId) {
-    return res.status(400).send("User ID is required for deletion.");
+    // This doesn't actually happen due to the requireSession middleware.
+    // Doing it to appease TypeScript.
+    return res
+      .status(401)
+      .send("User ID is required for updating the comment.");
   }
 
-  // TODO: Add db logic
-  res.send(`Rating ID ${ratingId} has been deleted.`);
+  const result = await db
+    .delete(ratingsTable)
+    .where(and(eq(ratingsTable.gifId, gifId), eq(ratingsTable.userId, userId)));
+
+  res.sendStatus(204);
 });
 
 export default ratingRouter;
