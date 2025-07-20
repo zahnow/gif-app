@@ -3,20 +3,7 @@
 import { useEffect, useState } from "react";
 import CommentInput from "./commentInput";
 import CommentList from "./commentList";
-
-type Comment = {
-  comment: {
-    id: string;
-    userId: string;
-    author: {
-      name: string;
-      avatarUrl?: string;
-    };
-    comment: string;
-    createdAt: string;
-  };
-  user: string;
-};
+import Comment from "@/types/comment";
 
 export default function CommentSection({ gifId }: { gifId: string }) {
   const [comments, setComments] = useState<Comment[]>([]);

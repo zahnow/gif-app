@@ -1,18 +1,6 @@
 import Image from "next/image";
 import { Center, Heading } from "@chakra-ui/react";
-
-// TODO: Move types to shared file
-type Gif = {
-  id: string;
-  title: string;
-  images: {
-    original: {
-      url: string;
-      width?: number;
-      height?: number;
-    };
-  };
-};
+import Gif from "@/types/gif";
 
 export default async function GifDetails({ id }: { id: string }) {
   let gif: Gif | null = null;

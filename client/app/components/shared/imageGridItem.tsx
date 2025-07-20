@@ -1,24 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Box } from "@chakra-ui/react";
+import Gif from "@/types/gif";
 
-// TODO: replace with actual data type
-export default function ImageGridItem({
-  gif,
-}: {
-  gif: {
-    id: string;
-    title: string;
-    url: string;
-    images: {
-      original: {
-        url: string;
-        height: number;
-        width: number;
-      };
-    };
-  };
-}) {
+export default function ImageGridItem({ gif }: { gif: Gif }) {
   return (
     <Link href={`/gif/${gif.id}`} key={gif.id}>
       <Box

@@ -3,17 +3,7 @@
 import { useState } from "react";
 import { authClient } from "@/components/auth/auth-client";
 import { Box, HStack, Spacer, VStack, Text, Input } from "@chakra-ui/react";
-
-type Comment = {
-  comment: {
-    id: string;
-    userId: string;
-    comment: string;
-    createdAt: string;
-    updatedAt?: string;
-  };
-  user: string;
-};
+import Comment from "@/types/comment";
 
 export default function CommentListItem({
   comment,

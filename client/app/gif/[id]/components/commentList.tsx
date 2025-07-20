@@ -1,17 +1,8 @@
-"use client"; // TODO: Could switch to serverside fetching
+"use client";
 
 import { VStack, Text, HStack } from "@chakra-ui/react";
 import CommentListItem from "./commentListItem";
-
-type Comment = {
-  comment: {
-    id: string;
-    userId: string;
-    comment: string;
-    createdAt: string;
-  };
-  user: string;
-};
+import Comment from "@/types/comment";
 
 export default function CommentList({
   comments,

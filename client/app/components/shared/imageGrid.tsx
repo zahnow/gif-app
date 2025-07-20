@@ -2,19 +2,7 @@
 
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import ImageGridItem from "./imageGridItem";
-
-type Gif = {
-  id: string;
-  title: string;
-  url: string;
-  images: {
-    original: {
-      url: string;
-      height: number;
-      width: number;
-    };
-  };
-};
+import Gif from "@/types/gif";
 
 export default function ImageGrid({ gifs }: { gifs: Gif[] }) {
   return (
