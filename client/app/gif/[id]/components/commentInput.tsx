@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { Input, Button, VStack, HStack } from "@chakra-ui/react";
 
-export default function CommentInput({ gifId }: { gifId: string }) {
+export default function CommentInput({
+  gifId,
+  fetchComments,
+}: {
+  gifId: string;
+  fetchComments: () => void;
+}) {
   const [comment, setComment] = useState("");
 
   const handleAddComment = async () => {
@@ -20,6 +26,7 @@ export default function CommentInput({ gifId }: { gifId: string }) {
         console.error("Failed to add comment:", response.statusText);
       } else {
         setComment("");
+        fetchComments();
       }
     }
   };
@@ -31,6 +38,7 @@ export default function CommentInput({ gifId }: { gifId: string }) {
           placeholder="Add a comment..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
+          borderColor="gray.solid"
         />
         <Button onClick={handleAddComment}>Post Comment</Button>
       </VStack>

@@ -10,11 +10,18 @@ type Comment = {
     userId: string;
     comment: string;
     createdAt: string;
+    updatedAt?: string;
   };
   user: string;
 };
 
-export default function CommentListItem({ comment }: { comment: Comment }) {
+export default function CommentListItem({
+  comment,
+  fetchComments,
+}: {
+  comment: Comment;
+  fetchComments: () => void;
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(comment.comment.comment);
   const session = authClient.useSession();
@@ -35,8 +42,7 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
       }
     );
     if (response.ok) {
-      // TODO: Optionally, you can refetch the comments or update the state to remove the deleted
-      // comment without a full refetch.
+      fetchComments();
     } else {
       console.error("Failed to delete comment:", response.statusText);
     }
@@ -59,8 +65,7 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
     );
     if (response.ok) {
       setIsEditing(false);
-      // Optionally, you can refetch the comments or update the state to reflect the edited
-      // comment without a full refetch.
+      fetchComments();
     } else {
       console.error("Failed to update comment:", response.statusText);
     }
@@ -84,6 +89,7 @@ export default function CommentListItem({ comment }: { comment: Comment }) {
             <Text fontWeight="bold">{comment.user}</Text>
             <Text fontSize="xs">
               {new Date(comment.comment.createdAt).toLocaleString()}
+              {comment.comment.updatedAt && " (edited)"}
             </Text>
           </Box>
           <Spacer />

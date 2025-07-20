@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarGroup, Menu, Portal } from "@chakra-ui/react";
+import { Button, Menu, Portal } from "@chakra-ui/react";
 import { authClient } from "@/components/auth/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -19,28 +19,13 @@ export default function Account() {
       {session.data ? (
         <Menu.Root>
           <Menu.Trigger asChild>
-            <AvatarGroup>
-              <Avatar.Root>
-                <Avatar.Fallback name={session.data?.user.name} />
-                <Avatar.Image />
-              </Avatar.Root>
-            </AvatarGroup>
+            <Button variant="outline" colorPalette={"orange"}>
+              {session.data.user.email || "Account"}
+            </Button>
           </Menu.Trigger>
           <Portal>
             <Menu.Positioner>
               <Menu.Content>
-                <Menu.Item
-                  value="profile"
-                  onClick={() => router.push("/profile")}
-                >
-                  Profile
-                </Menu.Item>
-                <Menu.Item
-                  value="settings"
-                  onClick={() => router.push("/settings")}
-                >
-                  Settings
-                </Menu.Item>
                 <Menu.Item value="logout" onClick={handleLogout}>
                   Logout
                 </Menu.Item>

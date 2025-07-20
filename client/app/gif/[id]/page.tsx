@@ -1,7 +1,6 @@
 import StarRating from "./components/rating";
-import CommentInput from "./components/commentInput";
-import CommentList from "./components/commentList";
 import GifDetails from "./components/gifDetails";
+import CommentSection from "./components/commentSection";
 
 export default async function GifDetailsPage({
   params,
@@ -14,8 +13,7 @@ export default async function GifDetailsPage({
     <>
       <GifDetails id={id} />
       <StarRating gifId={id} />
-      <CommentInput gifId={id} />
-      <CommentList gifId={id} />
+      <CommentSection gifId={id} />
     </>
   );
 }

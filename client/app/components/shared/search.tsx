@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Input } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 export default function Search() {
@@ -14,12 +14,15 @@ export default function Search() {
 
   return (
     <form onSubmit={(e) => handleSearch(e)}>
-      <Input
-        size={"2xl"}
-        placeholder="Search GIFs..."
-        value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-      />
+      <Box maxW="60ch" mx="auto" mt={4}>
+        <Input
+          size={"2xl"}
+          placeholder="Search GIFs..."
+          borderColor="gray.solid"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+        />
+      </Box>
     </form>
   );
 }

@@ -1,21 +1,19 @@
-"use client";
+// "use client";
 
-import { useEffect, useState } from "react";
 import ImageGrid from "./shared/imageGrid";
 
-export default function TrendingGrid() {
-  const [gifs, setGifs] = useState([]);
+export default async function TrendingGrid() {
+  let gifs = { data: [] };
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/gifs`, {
+    headers: {
+      authorization: `Bearer ${process.env.SERVER_SECRET}`,
+    },
+  });
+  if (!response.ok) {
+    console.error("Failed to fetch trending GIFs:", response.statusText);
+  } else {
+    gifs = await response.json();
+  }
 
-  useEffect(() => {
-    const fetchGifs = async () => {
-      const response = await fetch(`http://localhost:3001/api/gifs`, {
-        credentials: "include",
-      });
-      const data = await response.json();
-      setGifs(data.data);
-    };
-    fetchGifs();
-  }, []);
-
-  return <ImageGrid gifs={gifs} />;
+  return <ImageGrid gifs={gifs.data} />;
 }

@@ -1,10 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Center, Heading, Spinner } from "@chakra-ui/react";
+import { Center, Heading } from "@chakra-ui/react";
 
-// TODO: Add abbreviated GIF data type
+// TODO: Move types to shared file
 type Gif = {
   id: string;
   title: string;
@@ -17,20 +14,19 @@ type Gif = {
   };
 };
 
-export default function GifDetails({ id }: { id: string }) {
-  const [gif, setGif] = useState<Gif | null>(null);
-
-  useEffect(() => {
-    const fetchGif = async () => {
-      const response = await fetch(`http://localhost:3001/api/gifs/${id}`, {
-        credentials: "include",
-      });
-      const data = await response.json();
-      setGif(data);
-    };
-
-    fetchGif();
-  }, [id]);
+export default async function GifDetails({ id }: { id: string }) {
+  let gif: Gif | null = null;
+  const response = await fetch(`http://localhost:3001/api/gifs/${id}`, {
+    headers: {
+      authorization: `Bearer ${process.env.SERVER_SECRET}`,
+    },
+    credentials: "include",
+  });
+  if (!response.ok) {
+    console.error("Failed to fetch GIF details:", response.statusText);
+  } else {
+    gif = await response.json();
+  }
 
   return (
     <div>
@@ -49,7 +45,7 @@ export default function GifDetails({ id }: { id: string }) {
         </>
       ) : (
         <Center>
-          <Spinner size="xl" />
+          <Heading>GIF not found</Heading>
         </Center>
       )}
     </div>
