@@ -15,7 +15,9 @@ export default function CommentList({
     <HStack justifyContent={"center"}>
       <VStack w={"60ch"} gap={4}>
         {comments.length === 0 ? (
-          <Text textAlign="center">No comments yet.</Text>
+          <Text textAlign="center">
+            No comments yet. Be the first to comment!
+          </Text>
         ) : (
           comments.map((comment) => (
             <CommentListItem

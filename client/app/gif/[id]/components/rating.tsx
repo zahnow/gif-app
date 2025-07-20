@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { HStack, Button, RatingGroup } from "@chakra-ui/react";
+import { HStack, CloseButton, RatingGroup } from "@chakra-ui/react";
 
 export default function StarRating({ gifId }: { gifId: string }) {
   const [rating, setRating] = useState(0);
@@ -55,7 +55,7 @@ export default function StarRating({ gifId }: { gifId: string }) {
           <RatingGroup.HiddenInput />
           <RatingGroup.Control />
         </RatingGroup.Root>
-        {rating > 0 && <Button onClick={deleteRating}>Delete Rating</Button>}
+        {rating > 0 && <CloseButton onClick={deleteRating} />}
       </HStack>
     </>
   );
