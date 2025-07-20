@@ -37,7 +37,7 @@ export default function LoginPage() {
       });
       if (response.error) {
         throw new Error(
-          `Login failed (${response.error.code}): ${response.error.message}`
+          `Login failed (${response.error.code}): ${response.error.message}`,
         );
       }
     } catch (error: any) {

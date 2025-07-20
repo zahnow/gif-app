@@ -12,7 +12,7 @@ export default function SearchResults({ query }: { query: string | null }) {
         `http://localhost:3001/api/gifs/search?q=${query}`,
         {
           credentials: "include",
-        }
+        },
       );
       const data = await response.json();
       setResults(data.data);

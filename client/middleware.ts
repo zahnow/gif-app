@@ -12,8 +12,8 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(
         new URL(
           `/login?redirect=${request.nextUrl.pathname}${request.nextUrl.searchParams ? `&${request.nextUrl.searchParams.toString()}` : ""}`,
-          request.url
-        )
+          request.url,
+        ),
       );
     }
   } else {

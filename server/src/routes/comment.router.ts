@@ -14,7 +14,7 @@ commentRouter.get("/:id", requireSession, async (req, res) => {
     .from(commentsTable)
     .leftJoin(user, eq(commentsTable.userId, user.id))
     .where(
-      and(eq(commentsTable.gifId, gifId), isNull(commentsTable.deletedAt))
+      and(eq(commentsTable.gifId, gifId), isNull(commentsTable.deletedAt)),
     );
 
   if (!comments) {
@@ -54,7 +54,7 @@ commentRouter.put("/:id", requireSession, async (req, res) => {
     .update(commentsTable)
     .set({ comment, updatedAt: sql`(current_timestamp)` })
     .where(
-      and(eq(commentsTable.id, commentId), eq(commentsTable.userId, userId))
+      and(eq(commentsTable.id, commentId), eq(commentsTable.userId, userId)),
     );
 
   res.sendStatus(200);
@@ -68,7 +68,7 @@ commentRouter.delete("/:id", requireSession, async (req, res) => {
     .update(commentsTable)
     .set({ deletedAt: sql`(current_timestamp)` })
     .where(
-      and(eq(commentsTable.id, commentId), eq(commentsTable.userId, userId))
+      and(eq(commentsTable.id, commentId), eq(commentsTable.userId, userId)),
     );
 
   res.sendStatus(204);

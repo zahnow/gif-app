@@ -15,12 +15,14 @@ A full-stack application for browsing, sharing, commenting on, and rating GIFs. 
 ## Tech Stack
 
 ### Frontend (Client)
+
 - **Next.js 15** - React framework
 - **Chakra UI** - Component library
 - **TypeScript** - Type safety
 - **better-auth** - Authentication library
 
 ### Backend (Server)
+
 - **Express** - Web server framework
 - **Drizzle ORM** - Database ORM
 - **LibSQL/Turso** - Database
@@ -44,12 +46,14 @@ The project is organized as a monorepo with two main workspaces:
 ### Installation
 
 1. Clone the repository
+
    ```bash
    git clone https://github.com/zahnow/gif-app.git
    cd gif-app
    ```
 
 2. Install dependencies
+
    ```bash
    pnpm install
    ```
@@ -67,6 +71,7 @@ pnpm dev
 ```
 
 This will start:
+
 - Frontend on [http://localhost:3000](http://localhost:3000)
 - Backend on [http://localhost:3001](http://localhost:3001)
 

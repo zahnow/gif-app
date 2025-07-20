@@ -20,7 +20,7 @@ export const ratingsTable = sqliteTable(
   },
   (table) => ({
     uniqueUserGif: unique().on(table.userId, table.gifId),
-  })
+  }),
 );
 
 export const commentsTable = sqliteTable("comment", {
@@ -92,9 +92,9 @@ export const verification = sqliteTable("verification", {
   value: text("value").notNull(),
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
-    () => /* @__PURE__ */ new Date()
+    () => /* @__PURE__ */ new Date(),
   ),
   updatedAt: integer("updated_at", { mode: "timestamp" }).$defaultFn(
-    () => /* @__PURE__ */ new Date()
+    () => /* @__PURE__ */ new Date(),
   ),
 });

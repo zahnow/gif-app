@@ -13,7 +13,7 @@ export function DeleteComment({
       {
         method: "DELETE",
         credentials: "include",
-      }
+      },
     );
     if (response.ok) {
       fetchComments();

@@ -38,7 +38,7 @@ export default function CommentListItem({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ comment: editedComment }),
-      }
+      },
     );
     if (response.ok) {
       setIsEditing(false);

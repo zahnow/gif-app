@@ -39,7 +39,7 @@ export default function StarRating({ gifId }: { gifId: string }) {
         `http://localhost:3001/api/ratings/${gifId}`,
         {
           credentials: "include",
-        }
+        },
       );
       const data = await response.json();
       setRating(data.rating || 0);
