@@ -9,7 +9,7 @@ export default function Search() {
   const router = useRouter();
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push(`/search?query=${searchValue}`);
+    router.push(`/search?query=${encodeURIComponent(searchValue)}`);
   };
 
   return (
