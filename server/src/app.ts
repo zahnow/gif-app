@@ -8,13 +8,12 @@ import ratingRouter from "./routes/rating.router";
 import commentRouter from "./routes/comment.router";
 
 const app = express();
-const port = process.env.PORT || 3001;
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN || "http://localhost:3000",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-  }),
+  })
 );
 app.all("/api/auth/{*any}", toNodeHandler(auth));
 app.use(express.json());
@@ -23,6 +22,4 @@ app.use("/api/gifs", gifRouter);
 app.use("/api/ratings", ratingRouter);
 app.use("/api/comments", commentRouter);
 
-app.listen(port, () => {
-  console.log(`Express is running at http://localhost:${port}`);
-});
+export default app;

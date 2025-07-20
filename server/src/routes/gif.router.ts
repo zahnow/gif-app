@@ -29,7 +29,7 @@ gifRouter.get("/search", requireSession, async (req, res) => {
 
 gifRouter.get("/:id", async (req, res) => {
   if (req.headers.authorization !== `Bearer ${process.env.SERVER_SECRET}`) {
-    return res.status(401).send("Unauthorized");
+    return res.sendStatus(401);
   }
 
   const gifId = req.params.id;
@@ -44,20 +44,8 @@ gifRouter.get("/:id", async (req, res) => {
   if (gif.data) {
     res.send(gif.data);
   } else {
-    res.status(404).send("GIF not found.");
+    res.sendStatus(404);
   }
-});
-
-gifRouter.get("/autocomplete", requireSession, async (req, res) => {
-  const query = req.query.q;
-  if (!query) {
-    return res.status(400).send("Query parameter 'q' is required.");
-  }
-  const acQuery = await fetch(
-    `https://api.giphy.com/v1/gifs/search/tags?api_key=${process.env.GIPHY_API_KEY}&q=${query}&limit=30&offset=0`
-  );
-  const acResults = await acQuery.json();
-  res.send(acResults);
 });
 
 export default gifRouter;

@@ -26,16 +26,9 @@ commentRouter.get("/:id", requireSession, async (req, res) => {
 
 commentRouter.post("/", requireSession, async (req, res) => {
   const { gifId, comment } = req.body;
-  const userId = req.session?.user.id;
+  const userId = req.session.user.id;
   if (!gifId || !comment) {
     return res.status(400).send("gifId, and comment are required.");
-  }
-  if (!userId) {
-    // This doesn't actually happen due to the requireSession middleware.
-    // Doing it to appease TypeScript.
-    return res
-      .status(401)
-      .send("User ID is required for updating the comment.");
   }
 
   const newComment: typeof commentsTable.$inferInsert = {
@@ -45,23 +38,16 @@ commentRouter.post("/", requireSession, async (req, res) => {
   };
 
   await db.insert(commentsTable).values(newComment);
-  res.status(201).send("Comment added successfully.");
+  res.sendStatus(201);
 });
 
 commentRouter.put("/:id", requireSession, async (req, res) => {
   const commentId = Number(req.params.id);
   const { comment } = req.body;
-  const userId = req.session?.user.id;
+  const userId = req.session.user.id;
 
   if (!comment) {
     return res.status(400).send("Comment text is required for updating.");
-  }
-  if (!userId) {
-    // This doesn't actually happen due to the requireSession middleware.
-    // Doing it to appease TypeScript.
-    return res
-      .status(401)
-      .send("User ID is required for updating the comment.");
   }
 
   const result = await db
@@ -76,10 +62,7 @@ commentRouter.put("/:id", requireSession, async (req, res) => {
 
 commentRouter.delete("/:id", requireSession, async (req, res) => {
   const commentId = Number(req.params.id);
-  const userId = req.session?.user.id;
-  if (!userId) {
-    return res.status(400).send("User ID is required for deletion.");
-  }
+  const userId = req.session.user.id;
 
   const result = await db
     .update(commentsTable)
@@ -88,7 +71,7 @@ commentRouter.delete("/:id", requireSession, async (req, res) => {
       and(eq(commentsTable.id, commentId), eq(commentsTable.userId, userId))
     );
 
-  res.send(`Comment with ID ${commentId} deleted successfully.`);
+  res.sendStatus(204);
 });
 
 export default commentRouter;

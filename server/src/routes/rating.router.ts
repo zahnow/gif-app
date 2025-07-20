@@ -8,14 +8,7 @@ const ratingRouter: Router = Router();
 
 ratingRouter.get("/:id", requireSession, async (req, res) => {
   const gifId = req.params.id;
-  const userId = req.session?.user.id;
-  if (!userId) {
-    // This doesn't actually happen due to the requireSession middleware.
-    // Doing it to appease TypeScript.
-    return res
-      .status(401)
-      .send("User ID is required for updating the comment.");
-  }
+  const userId = req.session.user.id;
 
   const result = await db
     .select()
@@ -33,15 +26,8 @@ ratingRouter.get("/:id", requireSession, async (req, res) => {
 ratingRouter.put("/:id", requireSession, async (req, res) => {
   const gifId = req.params.id;
   const { rating } = req.body;
-  const userId = req.session?.user.id;
+  const userId = req.session.user.id;
 
-  if (!userId) {
-    // This doesn't actually happen due to the requireSession middleware.
-    // Doing it to appease TypeScript.
-    return res
-      .status(401)
-      .send("User ID is required for updating the comment.");
-  }
   if (typeof rating !== "number") {
     return res.status(400).send("Rating must be a number.");
   }
@@ -64,15 +50,7 @@ ratingRouter.put("/:id", requireSession, async (req, res) => {
 
 ratingRouter.delete("/:id", requireSession, async (req, res) => {
   const gifId = req.params.id;
-  const userId = req.session?.user.id;
-
-  if (!userId) {
-    // This doesn't actually happen due to the requireSession middleware.
-    // Doing it to appease TypeScript.
-    return res
-      .status(401)
-      .send("User ID is required for updating the comment.");
-  }
+  const userId = req.session.user.id;
 
   const result = await db
     .delete(ratingsTable)
