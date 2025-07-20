@@ -5,8 +5,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write .",
     "lint:client": "pnpm --filter client lint",
-    "lint": "eslint . --ext .js,.ts,.json",
-    "lint:fix": "eslint . --ext .js,.ts,.json --fix",
+    "lint:server": "pnpm --filter server lint",
     "dev": "concurrently -k -n client,server -c cyan,magenta \"pnpm --filter client dev\" \"pnpm --filter server dev\""
   },
   "workspaces": [
