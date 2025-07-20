@@ -5,11 +5,21 @@ import { getSessionCookie } from "better-auth/cookies";
 export function middleware(request: NextRequest) {
   const session = getSessionCookie(request);
   if (!session) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    const protectedPaths = ["/search", "/gif/:path*"];
+    if (
+      protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path))
+    ) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+  } else {
+    // Prevent logged-in users from accessing login or register pages
+    const restrictedPaths = ["/login", "/register"];
+    if (restrictedPaths.includes(request.nextUrl.pathname)) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
   return NextResponse.next();
 }
-
 export const config = {
-  matcher: ["/search", "/gif/:path*"],
+  matcher: ["/search", "/gif/:path*", "/login", "/register"],
 };
