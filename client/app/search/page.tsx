@@ -11,9 +11,10 @@ export default async function SearchPage({
 
   return (
     <>
-      <Heading size={"lg"}>Search GIFs</Heading>
       <Search />
-      <Heading>Results for {query}</Heading>
+      <Heading size={"xl"} textAlign={"center"} py={4}>
+        Results for {query}
+      </Heading>
       <SearchResults query={query} />
     </>
   );

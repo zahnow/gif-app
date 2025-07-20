@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Center, Heading } from "@chakra-ui/react";
+import { Box, Center, Heading } from "@chakra-ui/react";
 import Gif from "@/types/gif";
 
 export default async function GifDetails({ id }: { id: string }) {
@@ -17,10 +17,12 @@ export default async function GifDetails({ id }: { id: string }) {
   }
 
   return (
-    <div>
+    <Box py={8}>
       {gif ? (
         <>
-          <Heading textAlign="center">{gif.title}</Heading>
+          <Heading textAlign="center" size={"4xl"} fontWeight={"bold"} pb={3}>
+            {gif.title}
+          </Heading>
           <Center>
             <Image
               src={gif.images?.original?.url}
@@ -36,6 +38,6 @@ export default async function GifDetails({ id }: { id: string }) {
           <Heading>GIF not found</Heading>
         </Center>
       )}
-    </div>
+    </Box>
   );
 }

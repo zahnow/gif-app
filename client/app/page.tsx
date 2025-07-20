@@ -6,7 +6,9 @@ export default async function Home() {
   return (
     <>
       <Search />
-      <Heading size={"lg"}>Trending GIFs</Heading>
+      <Heading size={"xl"} textAlign={"center"} py={4}>
+        Trending GIFs
+      </Heading>
       <TrendingGrid />
     </>
   );
