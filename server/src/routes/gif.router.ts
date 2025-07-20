@@ -9,7 +9,7 @@ gifRouter.get("/", async (req, res) => {
   }
 
   const gifQuery = await fetch(
-    `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=30&offset=0&rating=g&bundle=messaging_non_clips`
+    `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=40&offset=0&rating=g&bundle=messaging_non_clips`
   );
   const gifs = await gifQuery.json();
   res.send(gifs);
@@ -21,7 +21,7 @@ gifRouter.get("/search", requireSession, async (req, res) => {
     return res.status(400).send("Query parameter 'q' is required.");
   }
   const searchQuery = await fetch(
-    `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}&q=${query}&limit=30&offset=0&rating=g&bundle=messaging_non_clips`
+    `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}&q=${query}&limit=40&offset=0&rating=g&bundle=messaging_non_clips`
   );
   const searchResults = await searchQuery.json();
   res.send(searchResults);

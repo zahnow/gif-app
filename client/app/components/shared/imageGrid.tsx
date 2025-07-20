@@ -1,4 +1,6 @@
-import { HStack, VStack } from "@chakra-ui/react";
+"use client";
+
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import ImageGridItem from "./imageGridItem";
 
 type Gif = {
@@ -8,47 +10,22 @@ type Gif = {
   images: {
     original: {
       url: string;
-    };
-    fixed_width: {
-      url: string;
       height: number;
+      width: number;
     };
   };
 };
 
 export default function ImageGrid({ gifs }: { gifs: Gif[] }) {
   return (
-    <HStack gap={4} alignItems={"flex-start"} justifyContent={"center"}>
-      <VStack gap={4}>
-        {gifs.slice(0, 5).map((gif: Gif) => (
-          <ImageGridItem key={gif.id} {...gif} />
+    <ResponsiveMasonry
+      columnsCountBreakPoints={{ 480: 1, 768: 3, 1024: 4, 1280: 5, 1536: 6 }}
+    >
+      <Masonry>
+        {gifs.map((gif: Gif) => (
+          <ImageGridItem key={gif.id} gif={gif} />
         ))}
-      </VStack>
-      <VStack gap={6}>
-        {gifs.slice(5, 10).map((gif: Gif) => (
-          <ImageGridItem key={gif.id} {...gif} />
-        ))}
-      </VStack>
-      <VStack gap={6}>
-        {gifs.slice(10, 15).map((gif: Gif) => (
-          <ImageGridItem key={gif.id} {...gif} />
-        ))}
-      </VStack>
-      <VStack gap={6}>
-        {gifs.slice(15, 20).map((gif: Gif) => (
-          <ImageGridItem key={gif.id} {...gif} />
-        ))}
-      </VStack>
-      <VStack gap={6}>
-        {gifs.slice(20, 25).map((gif: Gif) => (
-          <ImageGridItem key={gif.id} {...gif} />
-        ))}
-      </VStack>
-      <VStack gap={6}>
-        {gifs.slice(25).map((gif: Gif) => (
-          <ImageGridItem key={gif.id} {...gif} />
-        ))}
-      </VStack>
-    </HStack>
+      </Masonry>
+    </ResponsiveMasonry>
   );
 }

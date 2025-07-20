@@ -59,6 +59,9 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.1.0)
+      react-responsive-masonry:
+        specifier: ^2.7.1
+        version: 2.7.1
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -72,6 +75,9 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.1.6(@types/react@19.1.8)
+      '@types/react-responsive-masonry':
+        specifier: ^2.6.0
+        version: 2.6.0
       eslint:
         specifier: ^9
         version: 9.31.0
@@ -1012,6 +1018,9 @@ packages:
     resolution: {integrity: sha512-4hOiT/dwO8Ko0gV1m/TJZYk3y0KBnY9vzDh7W+DH17b2HFSOGgdj33dhihPeuy3l0q23+4e+hoXHV6hCC4dCXw==}
     peerDependencies:
       '@types/react': ^19.0.0
+
+  '@types/react-responsive-masonry@2.6.0':
+    resolution: {integrity: sha512-MF2ql1CjzOoL9fLWp6L3ABoyzBUP/YV71wyb3Fx+cViYNj7+tq3gDCllZHbLg1LQfGOQOEGbV2P7TOcUeGiR6w==}
 
   '@types/react@19.1.8':
     resolution: {integrity: sha512-AwAfQ2Wa5bCx9WP8nZL2uMZWod7J7/JSplxbTmBQ5ms6QpqNYm672H0Vu9ZVKVngQ+ii4R/byguVEUZQyeg44g==}
@@ -2782,6 +2791,9 @@ packages:
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
+  react-responsive-masonry@2.7.1:
+    resolution: {integrity: sha512-Q+u+nOH87PzjqGFd2PgTcmLpHPZnCmUPREHYoNBc8dwJv6fi51p9U6hqwG8g/T8MN86HrFjrU+uQU6yvETU7cA==}
+
   react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
     engines: {node: '>=0.10.0'}
@@ -4084,6 +4096,10 @@ snapshots:
   '@types/range-parser@1.2.7': {}
 
   '@types/react-dom@19.1.6(@types/react@19.1.8)':
+    dependencies:
+      '@types/react': 19.1.8
+
+  '@types/react-responsive-masonry@2.6.0':
     dependencies:
       '@types/react': 19.1.8
 
@@ -6350,6 +6366,8 @@ snapshots:
       react: 19.1.0
 
   react-is@16.13.1: {}
+
+  react-responsive-masonry@2.7.1: {}
 
   react@19.1.0: {}
 

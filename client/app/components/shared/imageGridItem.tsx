@@ -3,14 +3,19 @@ import Image from "next/image";
 import { Box } from "@chakra-ui/react";
 
 // TODO: replace with actual data type
-export default function ImageGridItem(gif: {
-  id: string;
-  title: string;
-  url: string;
-  images: {
-    fixed_width: {
-      url: string;
-      height: number;
+export default function ImageGridItem({
+  gif,
+}: {
+  gif: {
+    id: string;
+    title: string;
+    url: string;
+    images: {
+      original: {
+        url: string;
+        height: number;
+        width: number;
+      };
     };
   };
 }) {
@@ -23,9 +28,9 @@ export default function ImageGridItem(gif: {
         _hover={{ transform: "scale(1.05)" }}
       >
         <Image
-          src={gif.images.fixed_width.url}
-          width={200}
-          height={gif.images.fixed_width.height}
+          src={gif.images.original.url}
+          width={gif.images.original.width}
+          height={gif.images.original.height}
           alt={gif.title}
           style={{ borderRadius: "8px" }}
           unoptimized
