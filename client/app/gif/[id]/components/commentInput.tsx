@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Input, Button, VStack, HStack } from "@chakra-ui/react";
+import { Input, Button, Group, HStack } from "@chakra-ui/react";
 
 export default function CommentInput({
   gifId,
@@ -12,7 +12,8 @@ export default function CommentInput({
 }) {
   const [comment, setComment] = useState("");
 
-  const handleAddComment = async () => {
+  const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (comment.trim()) {
       const response = await fetch(`http://localhost:3001/api/comments/`, {
         method: "POST",
@@ -33,15 +34,16 @@ export default function CommentInput({
 
   return (
     <HStack justifyContent={"center"} pt={4} pb={8}>
-      <VStack w={"60ch"} gap={2}>
-        <Input
-          placeholder="Add a comment..."
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          borderColor="gray.solid"
-        />
-        <Button onClick={handleAddComment}>Post Comment</Button>
-      </VStack>
+      <form onSubmit={handleAddComment}>
+        <Group w={"60ch"} attached>
+          <Input
+            placeholder="Add a comment..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <Button type="submit">Post</Button>
+        </Group>
+      </form>
     </HStack>
   );
 }

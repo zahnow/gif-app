@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { HStack, CloseButton, RatingGroup } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  CloseButton,
+  RatingGroup,
+  Heading,
+} from "@chakra-ui/react";
 
 export default function StarRating({ gifId }: { gifId: string }) {
   const [rating, setRating] = useState(0);
@@ -43,20 +49,23 @@ export default function StarRating({ gifId }: { gifId: string }) {
   }, [gifId]);
 
   return (
-    <>
-      <HStack py={4} justifyContent={"center"}>
+    <Box py={4}>
+      <Heading as="h2" size="lg" textAlign="center">
+        Your Rating
+      </Heading>
+      <HStack justifyContent={"center"}>
         <RatingGroup.Root
+          py={3}
           count={5}
           size={"lg"}
           value={rating}
           onValueChange={(event) => updateRating(event)}
         >
-          <RatingGroup.Label pr={2}>Rating</RatingGroup.Label>
           <RatingGroup.HiddenInput />
           <RatingGroup.Control />
         </RatingGroup.Root>
-        {rating > 0 && <CloseButton onClick={deleteRating} />}
+        <CloseButton onClick={deleteRating} disabled={rating === 0} />
       </HStack>
-    </>
+    </Box>
   );
 }

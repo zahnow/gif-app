@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import CommentInput from "./commentInput";
 import CommentList from "./commentList";
 import Comment from "@/types/comment";
+import { Heading } from "@chakra-ui/react";
 
 export default function CommentSection({ gifId }: { gifId: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -33,6 +34,9 @@ export default function CommentSection({ gifId }: { gifId: string }) {
 
   return (
     <>
+      <Heading as="h2" size="lg" mb={2} textAlign="center">
+        Comments
+      </Heading>
       <CommentInput gifId={gifId} fetchComments={fetchComments} />
       <CommentList comments={comments} fetchComments={fetchComments} />
     </>

@@ -20,7 +20,7 @@ export default async function GifDetails({ id }: { id: string }) {
     <div>
       {gif ? (
         <>
-          <Heading>{gif.title}</Heading>
+          <Heading textAlign="center">{gif.title}</Heading>
           <Center>
             <Image
               src={gif.images?.original?.url}

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { authClient } from "@/components/auth/auth-client";
 import { Box, HStack, Spacer, VStack, Text, Input } from "@chakra-ui/react";
 import Comment from "@/types/comment";
+import { DeleteComment } from "./deleteComment";
 
 export default function CommentListItem({
   comment,
@@ -23,22 +24,8 @@ export default function CommentListItem({
     }
   };
 
-  const handleDelete = async () => {
-    const response = await fetch(
-      `http://localhost:3001/api/comments/${comment.comment.id}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      }
-    );
-    if (response.ok) {
-      fetchComments();
-    } else {
-      console.error("Failed to delete comment:", response.statusText);
-    }
-  };
-
-  const handleEdit = async () => {
+  const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (editedComment.trim() === "") {
       return;
     }
@@ -61,60 +48,66 @@ export default function CommentListItem({
     }
   };
 
+  function cancelEdit() {
+    setIsEditing(false);
+    setEditedComment(comment.comment.comment);
+  }
+
   return (
-    <Box
-      key={comment.comment.id}
-      p={4}
-      borderRadius="md"
-      borderWidth="1px"
-      width={"100%"}
-    >
-      <VStack gap={2} alignItems="flex-start">
-        <HStack
-          width="100%"
-          justifyContent="space-between"
-          alignItems="flex-start"
-        >
-          <Box>
-            <Text fontWeight="bold">{comment.user}</Text>
-            <Text fontSize="xs">
-              {new Date(comment.comment.createdAt).toLocaleString()}
-              {comment.comment.updatedAt && " (edited)"}
-            </Text>
-          </Box>
-          <Spacer />
-        </HStack>
-        {isEditing ? (
-          <Input
-            value={editedComment}
-            onChange={(e) => setEditedComment(e.target.value)}
-            onBlur={handleEdit}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleEdit();
-              }
-            }}
-          />
-        ) : (
-          <Text mt={2}>{comment.comment.comment}</Text>
-        )}
-        <HStack width="100%" gap={4} justifyContent="flex-end">
-          {session.data?.user.id === comment.comment.userId && (
-            <>
-              <Text
-                cursor={"pointer"}
-                fontSize={"xs"}
-                onClick={handleEditToggle}
-              >
-                Edit
+    <>
+      <Box
+        key={comment.comment.id}
+        p={4}
+        borderRadius="md"
+        borderWidth="1px"
+        width={"100%"}
+      >
+        <VStack gap={2} alignItems="flex-start">
+          <HStack
+            width="100%"
+            justifyContent="space-between"
+            alignItems="flex-start"
+          >
+            <Box>
+              <Text fontWeight="bold">{comment.user}</Text>
+              <Text fontSize="xs">
+                {new Date(comment.comment.createdAt).toLocaleString()}
+                {comment.comment.updatedAt && " (edited)"}
               </Text>
-              <Text cursor={"pointer"} fontSize={"xs"} onClick={handleDelete}>
-                Delete
-              </Text>
-            </>
+            </Box>
+            <Spacer />
+          </HStack>
+          {isEditing ? (
+            <form onSubmit={handleEdit} style={{ width: "100%" }}>
+              <Input
+                value={editedComment}
+                onChange={(e) => setEditedComment(e.target.value)}
+                onBlur={cancelEdit}
+                autoFocus
+              />
+            </form>
+          ) : (
+            <Text mt={2}>{comment.comment.comment}</Text>
           )}
-        </HStack>
-      </VStack>
-    </Box>
+          <HStack width="100%" gap={4} justifyContent="flex-end">
+            {session.data?.user.id === comment.comment.userId && (
+              <>
+                <Text
+                  cursor={"pointer"}
+                  fontSize={"xs"}
+                  onClick={handleEditToggle}
+                >
+                  Edit
+                </Text>
+                <DeleteComment
+                  commentId={comment.comment.id}
+                  fetchComments={fetchComments}
+                />
+              </>
+            )}
+          </HStack>
+        </VStack>
+      </Box>
+    </>
   );
 }
