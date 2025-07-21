@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Menu, Portal, Dialog, CloseButton } from "@chakra-ui/react";
 import { authClient } from "@/components/auth/auth-client";
 import { useRouter } from "next/navigation";
@@ -10,21 +10,29 @@ export default function Account() {
   const session = authClient.useSession();
   const router = useRouter();
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function handleLogout(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     authClient.signOut();
+    setIsConfirmationOpen(false);
     router.push("/");
   }
 
+  useEffect(() => {
+    if (session.data) {
+      setIsLoggedIn(true);
+    }
+  }, [session.data]);
+
   return (
     <>
-      {session.data ? (
+      {isLoggedIn ? (
         <>
           <Menu.Root>
             <Menu.Trigger asChild>
               <Button variant="outline">
-                {session.data.user.email || "Account"}
+                {session?.data?.user.email || "Account"}
               </Button>
             </Menu.Trigger>
             <Portal>
@@ -62,7 +70,7 @@ export default function Account() {
                     >
                       Cancel
                     </Button>
-                    <Button colorScheme="red" onClick={(e) => handleLogout(e)}>
+                    <Button colorPalette="red" onClick={(e) => handleLogout(e)}>
                       Logout
                     </Button>
                   </Dialog.Footer>
