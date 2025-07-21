@@ -10,7 +10,7 @@ export function DeleteComment({
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/comments/${commentId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/comments/${commentId}`,
         {
           method: "DELETE",
           credentials: "include",

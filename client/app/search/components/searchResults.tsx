@@ -10,7 +10,7 @@ export default function SearchResults({ query }: { query: string | null }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/api/gifs/search?q=${query}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/gifs/search?q=${query}`,
           {
             credentials: "include",
           },

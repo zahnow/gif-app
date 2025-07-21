@@ -5,12 +5,15 @@ import Gif from "@/types/gif";
 export default async function GifDetails({ id }: { id: string }) {
   let gif: Gif | null = null;
   try {
-    const response = await fetch(`http://localhost:3001/api/gifs/${id}`, {
-      headers: {
-        authorization: `Bearer ${process.env.SERVER_SECRET}`,
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/gifs/${id}`,
+      {
+        headers: {
+          authorization: `Bearer ${process.env.SERVER_SECRET}`,
+        },
+        credentials: "include",
       },
-      credentials: "include",
-    });
+    );
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.statusText}`);
     }

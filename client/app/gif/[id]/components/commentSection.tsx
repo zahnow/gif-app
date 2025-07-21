@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import CommentInput from "./commentInput";
 import CommentList from "./commentList";
 import Comment from "@/types/comment";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Center, Spinner } from "@chakra-ui/react";
 
 export default function CommentSection({ gifId }: { gifId: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
 
   async function fetchComments() {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/comments/${gifId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/comments/${gifId}`,
         {
           method: "GET",
           credentials: "include",
@@ -25,6 +26,8 @@ export default function CommentSection({ gifId }: { gifId: string }) {
       setComments(data);
     } catch (error) {
       console.error("Error fetching comments:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -38,7 +41,13 @@ export default function CommentSection({ gifId }: { gifId: string }) {
         Comments
       </Heading>
       <CommentInput gifId={gifId} fetchComments={fetchComments} />
-      <CommentList comments={comments} fetchComments={fetchComments} />
+      {loading ? (
+        <Center>
+          <Spinner />
+        </Center>
+      ) : (
+        <CommentList comments={comments} fetchComments={fetchComments} />
+      )}
     </>
   );
 }

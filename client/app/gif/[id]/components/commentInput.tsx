@@ -16,14 +16,17 @@ export default function CommentInput({
     e.preventDefault();
     if (comment.trim()) {
       try {
-        const response = await fetch(`http://localhost:3001/api/comments/`, {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/comments/`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ comment, gifId }),
           },
-          body: JSON.stringify({ comment, gifId }),
-        });
+        );
         if (!response.ok) {
           throw new Error(`HTTP error: ${response.statusText}`);
         } else {

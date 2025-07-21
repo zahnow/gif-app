@@ -31,7 +31,7 @@ export default function CommentListItem({
     }
     try {
       const response = await fetch(
-        `http://localhost:3001/api/comments/${comment.comment.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/comments/${comment.comment.id}`,
         {
           method: "PUT",
           credentials: "include",

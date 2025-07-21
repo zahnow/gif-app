@@ -16,7 +16,7 @@ export default function StarRating({ gifId }: { gifId: string }) {
     const value = event.value;
     try {
       const response = await fetch(
-        `http://localhost:3001/api/ratings/${gifId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/ratings/${gifId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -38,7 +38,7 @@ export default function StarRating({ gifId }: { gifId: string }) {
   const deleteRating = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/ratings/${gifId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/ratings/${gifId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -57,7 +57,7 @@ export default function StarRating({ gifId }: { gifId: string }) {
     const fetchRating = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/api/ratings/${gifId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/ratings/${gifId}`,
           {
             credentials: "include",
           },
