@@ -14,7 +14,6 @@ A full-stack application for browsing, sharing, commenting on, and rating GIFs. 
 - View GIF details
 - Comment on GIFs
 - Rate GIFs
-- User profile management
 
 ## Tech Stack
 
