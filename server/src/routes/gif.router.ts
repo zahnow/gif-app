@@ -8,11 +8,16 @@ gifRouter.get("/", async (req, res) => {
     return res.status(401).send("Unauthorized");
   }
 
-  const gifQuery = await fetch(
-    `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=40&offset=0&rating=g&bundle=messaging_non_clips`,
-  );
-  const gifs = await gifQuery.json();
-  res.send(gifs);
+  try {
+    const gifQuery = await fetch(
+      `https://api.giphy.com/v1/gifs/trending?api_key=${process.env.GIPHY_API_KEY}&limit=40&offset=0&rating=g&bundle=messaging_non_clips`
+    );
+    const gifs = await gifQuery.json();
+    res.send(gifs);
+  } catch (error) {
+    console.error("Error fetching trending GIFs:", error);
+    return res.status(500).send("Internal Server Error");
+  }
 });
 
 gifRouter.get("/search", requireSession, async (req, res) => {
@@ -20,11 +25,16 @@ gifRouter.get("/search", requireSession, async (req, res) => {
   if (!query) {
     return res.status(400).send("Query parameter 'q' is required.");
   }
-  const searchQuery = await fetch(
-    `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}&q=${query}&limit=40&offset=0&rating=g&bundle=messaging_non_clips`,
-  );
-  const searchResults = await searchQuery.json();
-  res.send(searchResults);
+  try {
+    const searchQuery = await fetch(
+      `https://api.giphy.com/v1/gifs/search?api_key=${process.env.GIPHY_API_KEY}&q=${query}&limit=40&offset=0&rating=g&bundle=messaging_non_clips`
+    );
+    const searchResults = await searchQuery.json();
+    res.send(searchResults);
+  } catch (error) {
+    console.error("Error fetching search results:", error);
+    return res.status(500).send("Internal Server Error");
+  }
 });
 
 gifRouter.get("/:id", async (req, res) => {
@@ -37,14 +47,19 @@ gifRouter.get("/:id", async (req, res) => {
     return res.status(400).send("GIF ID is required.");
   }
 
-  const gifQuery = await fetch(
-    `https://api.giphy.com/v1/gifs/${gifId}?api_key=${process.env.GIPHY_API_KEY}`,
-  );
-  const gif = await gifQuery.json();
-  if (gif.data) {
-    res.send(gif.data);
-  } else {
-    res.sendStatus(404);
+  try {
+    const gifQuery = await fetch(
+      `https://api.giphy.com/v1/gifs/${gifId}?api_key=${process.env.GIPHY_API_KEY}`
+    );
+    const gif = await gifQuery.json();
+    if (gif.data) {
+      res.send(gif.data);
+    } else {
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    console.error("Error fetching GIF details:", error);
+    return res.status(500).send("Internal Server Error");
   }
 });
 

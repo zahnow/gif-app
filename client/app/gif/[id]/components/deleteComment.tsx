@@ -8,17 +8,20 @@ export function DeleteComment({
   fetchComments: () => void;
 }) {
   const handleDelete = async () => {
-    const response = await fetch(
-      `http://localhost:3001/api/comments/${commentId}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      },
-    );
-    if (response.ok) {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/comments/${commentId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        console.error("Failed to delete comment:", response.statusText);
+      }
       fetchComments();
-    } else {
-      console.error("Failed to delete comment:", response.statusText);
+    } catch (error) {
+      console.error("Error deleting comment:", error);
     }
   };
 

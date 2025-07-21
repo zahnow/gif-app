@@ -29,22 +29,25 @@ export default function CommentListItem({
     if (editedComment.trim() === "") {
       return;
     }
-    const response = await fetch(
-      `http://localhost:3001/api/comments/${comment.comment.id}`,
-      {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ comment: editedComment }),
-      },
-    );
-    if (response.ok) {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/comments/${comment.comment.id}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ comment: editedComment }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to update comment:" + response.statusText);
+      }
       setIsEditing(false);
       fetchComments();
-    } else {
-      console.error("Failed to update comment:", response.statusText);
+    } catch (error) {
+      console.error("Error updating comment:", error);
     }
   };
 

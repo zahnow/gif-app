@@ -4,16 +4,19 @@ import Gif from "@/types/gif";
 
 export default async function GifDetails({ id }: { id: string }) {
   let gif: Gif | null = null;
-  const response = await fetch(`http://localhost:3001/api/gifs/${id}`, {
-    headers: {
-      authorization: `Bearer ${process.env.SERVER_SECRET}`,
-    },
-    credentials: "include",
-  });
-  if (!response.ok) {
-    console.error("Failed to fetch GIF details:", response.statusText);
-  } else {
+  try {
+    const response = await fetch(`http://localhost:3001/api/gifs/${id}`, {
+      headers: {
+        authorization: `Bearer ${process.env.SERVER_SECRET}`,
+      },
+      credentials: "include",
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.statusText}`);
+    }
     gif = await response.json();
+  } catch (error) {
+    console.error("Error fetching GIF details:", error);
   }
 
   return (

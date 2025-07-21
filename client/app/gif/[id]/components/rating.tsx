@@ -14,35 +14,62 @@ export default function StarRating({ gifId }: { gifId: string }) {
 
   const updateRating = async (event: { value: number }) => {
     const value = event.value;
-    setRating(value);
-    await fetch(`http://localhost:3001/api/ratings/${gifId}`, {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ rating: event.value }),
-    });
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/ratings/${gifId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rating: event.value }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to update rating: " + response.statusText);
+      }
+      setRating(value);
+    } catch (error) {
+      console.error("Error updating rating:", error);
+    }
   };
 
   const deleteRating = async () => {
-    setRating(0);
-    await fetch(`http://localhost:3001/api/ratings/${gifId}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/ratings/${gifId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete rating: " + response.statusText);
+      }
+      setRating(0);
+    } catch (error) {
+      console.error("Error deleting rating:", error);
+    }
   };
 
   useEffect(() => {
     const fetchRating = async () => {
-      const response = await fetch(
-        `http://localhost:3001/api/ratings/${gifId}`,
-        {
-          credentials: "include",
-        },
-      );
-      const data = await response.json();
-      setRating(data.rating || 0);
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/ratings/${gifId}`,
+          {
+            credentials: "include",
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch rating: " + response.statusText);
+        }
+        const data = await response.json();
+        setRating(data.rating || 0);
+      } catch (error) {
+        console.error("Error fetching rating:", error);
+      }
     };
 
     fetchRating();

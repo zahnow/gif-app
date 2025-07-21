@@ -15,19 +15,23 @@ export default function CommentInput({
   const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (comment.trim()) {
-      const response = await fetch(`http://localhost:3001/api/comments/`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ comment, gifId }),
-      });
-      if (!response.ok) {
-        console.error("Failed to add comment:", response.statusText);
-      } else {
-        setComment("");
-        fetchComments();
+      try {
+        const response = await fetch(`http://localhost:3001/api/comments/`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ comment, gifId }),
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.statusText}`);
+        } else {
+          setComment("");
+          fetchComments();
+        }
+      } catch (error) {
+        console.error("Error adding comment:", error);
       }
     }
   };

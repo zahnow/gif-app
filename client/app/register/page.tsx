@@ -39,12 +39,12 @@ export default function RegisterPage() {
           onSuccess: () => {
             router.push(redirectPath);
           },
-        },
+        }
       );
 
       if (response.error) {
         throw new Error(
-          `Registration failed (${response.error.code}): ${response.error.message}`,
+          `Registration failed (${response.error.code}): ${response.error.message}`
         );
       }
     } catch (error: any) {

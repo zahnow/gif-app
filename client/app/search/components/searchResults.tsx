@@ -8,14 +8,21 @@ export default function SearchResults({ query }: { query: string | null }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        `http://localhost:3001/api/gifs/search?q=${query}`,
-        {
-          credentials: "include",
-        },
-      );
-      const data = await response.json();
-      setResults(data.data);
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/gifs/search?q=${query}`,
+          {
+            credentials: "include",
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.statusText}`);
+        }
+        const data = await response.json();
+        setResults(data.data);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
     };
 
     fetchData();

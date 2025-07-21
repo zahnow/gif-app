@@ -2,6 +2,10 @@
 
 A full-stack application for browsing, sharing, commenting on, and rating GIFs. This application features a modern React frontend built with Next.js and Chakra UI, and a Node.js backend with Express.
 
+![image](./docs/screenshots/Screenshot%202025-07-20%20at%2019-59-03%20Gif%20Finder.png)
+![image](./docs/screenshots/Screenshot%202025-07-20%20at%2019-59-25%20Gif%20Finder.png)
+![image](./docs/screenshots/Screenshot%202025-07-20%20at%2019-59-49%20Gif%20Finder.png)
+
 ## Features
 
 - User authentication (login/register)
@@ -86,12 +90,12 @@ pnpm --filter server build
 
 ## API Endpoints
 
-The backend API provides the following endpoints:
+The backend API provides the following endpoints (unless otherwise noted, they require user authentication):
 
 - **GIFs**
-  - `GET /api/gifs/trending` - Get trending GIFs
+  - `GET /api/gifs/` - Get trending GIFs (Bearer token protected)
   - `GET /api/gifs/search` - Search for GIFs
-  - `GET /api/gifs/:id` - Get a specific GIF
+  - `GET /api/gifs/:id` - Get a specific GIF (Bearer token protected)
 
 - **Comments**
   - `GET /api/comments/:gifId` - Get comments for a GIF
@@ -100,9 +104,9 @@ The backend API provides the following endpoints:
   - `DELETE /api/comments/:id` - Delete a comment
 
 - **Ratings**
-  - `GET /api/ratings/:gifId` - Get ratings for a GIF
+  - `GET /api/ratings/:gifId` - Get the rating for a GIF for a specific user
   - `POST /api/ratings` - Add a rating
-  - `PUT /api/ratings/:id` - Update a rating
+  - `PUT /api/ratings/:id` - Update a user's rating
 
 ## Author
 
