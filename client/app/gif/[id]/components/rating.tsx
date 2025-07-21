@@ -24,7 +24,7 @@ export default function StarRating({ gifId }: { gifId: string }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ rating: event.value }),
-        }
+        },
       );
       if (!response.ok) {
         throw new Error("Failed to update rating: " + response.statusText);
@@ -42,7 +42,7 @@ export default function StarRating({ gifId }: { gifId: string }) {
         {
           method: "DELETE",
           credentials: "include",
-        }
+        },
       );
       if (!response.ok) {
         throw new Error("Failed to delete rating: " + response.statusText);
@@ -60,7 +60,7 @@ export default function StarRating({ gifId }: { gifId: string }) {
           `http://localhost:3001/api/ratings/${gifId}`,
           {
             credentials: "include",
-          }
+          },
         );
         if (!response.ok) {
           throw new Error("Failed to fetch rating: " + response.statusText);

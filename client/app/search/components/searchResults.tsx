@@ -13,7 +13,7 @@ export default function SearchResults({ query }: { query: string | null }) {
           `http://localhost:3001/api/gifs/search?q=${query}`,
           {
             credentials: "include",
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(`HTTP error: ${response.statusText}`);

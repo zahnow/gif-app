@@ -14,7 +14,7 @@ export function DeleteComment({
         {
           method: "DELETE",
           credentials: "include",
-        }
+        },
       );
       if (!response.ok) {
         console.error("Failed to delete comment:", response.statusText);
