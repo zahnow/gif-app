@@ -22,6 +22,8 @@ export default function Account() {
   useEffect(() => {
     if (session.data) {
       setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
   }, [session.data]);
 
